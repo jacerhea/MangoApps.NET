@@ -13,11 +13,11 @@ namespace MangoApps.Client.Response
         public string TransactionId { get; set; }
 
         [DataMember(Name = "feed")]
-        public UserWallFeed Feed { get; set; }
+        public UserWallFeedResponse Feed { get; set; }
     }
 
     [DataContract]
-    public class UserWallFeed
+    public class UserWallFeedResponse
     {
         [DataMember(Name = "like_count")]
         public int LikeCount { get; set; }

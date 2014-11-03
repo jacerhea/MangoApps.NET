@@ -12,7 +12,6 @@ namespace MangoApps.Client.Request
         }
 
         public string URL { get { return Client.URL.Login; } }
-        public bool HasErrorResponse { get { return true; } }
         public HttpMethod Method { get { return HttpMethod.Post; } }
         public RequestParametersContainer<LoginRequestParameters> Container { get; private set; }
     }

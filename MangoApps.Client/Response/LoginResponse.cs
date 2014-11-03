@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using MangoApps.Client.Converter;
+using Newtonsoft.Json;
 
 namespace MangoApps.Client.Response
 {
@@ -18,7 +20,7 @@ namespace MangoApps.Client.Response
     public class LoggedInUser
     {
         [DataMember(Name = "id")]
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [DataMember(Name = "email")]
         public string Email { get; set; }
@@ -54,7 +56,9 @@ namespace MangoApps.Client.Response
         public string SignificantOther { get; set; }
 
         [DataMember(Name = "created_at")]
-        public DateTime CreatedAt { get; set; }
+        [JsonConverter(typeof(SecondEpochConverter))]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include, NullValueHandling = NullValueHandling.Include)]
+        public DateTime? CreatedAt { get; set; }
 
         [DataMember(Name = "time_zone")]
         public string TimeZone { get; set; }

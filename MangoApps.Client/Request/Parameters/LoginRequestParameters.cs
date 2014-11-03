@@ -12,14 +12,8 @@ namespace MangoApps.Client.Request.Parameters
     [DataContract]
     public class LoginUser
     {
-        private string _password;
-
         [DataMember(Name = "password")]
-        public string Password
-        {
-            get { return Encoder.ToBase64String(_password); }
-            set { _password = value; }
-        }
+        public string Password { get; set; }
 
         [DataMember(Name = "username")]
         public string UserName { get; set; }

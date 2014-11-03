@@ -5,9 +5,8 @@ namespace MangoApps.Client.Request
 {
     public interface IRequest<TRequest, TResponse> where TResponse : new()
     {
-        string URL { get; }
-        bool HasErrorResponse { get; }
         HttpMethod Method { get; }
+        string URL { get; }
         RequestParametersContainer<TRequest> Container { get; }
     }
 }

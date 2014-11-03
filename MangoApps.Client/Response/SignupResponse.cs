@@ -9,11 +9,11 @@ namespace MangoApps.Client.Response
         public string TransactionId { get; set; }
 
         [DataMember(Name = "user")]
-        public SignupUser User { get; set; }
+        public SignedUpUser User { get; set; }
     }
 
     [DataContract]
-    public class SignupUser
+    public class SignedUpUser
     {
         [DataMember(Name = "id")]
         public string Id { get; set; }
