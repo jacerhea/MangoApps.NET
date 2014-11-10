@@ -5,7 +5,7 @@
         public GroupWallFeed Feed { get; set; }
     }
 
-    public class GroupWallFeed
+    public abstract class GroupWallFeed
     {
         public string Body { get; set; }
         public string GroupId { get; set; }

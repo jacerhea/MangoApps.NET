@@ -1,14 +1,7 @@
 ﻿using System.Runtime.Serialization;
 
-namespace MangoApps.Client.Request
+namespace MangoApps.Client.Request.Parameters
 {
-    [DataContract]
-    public class CreateGroupRequest
-    {
-        [DataMember(Name = "group")]
-        public CreateGroupRequestParameters Group { get; set; }
-    }
-
     [DataContract]
     public class CreateGroupRequestParameters
     {
@@ -16,7 +9,7 @@ namespace MangoApps.Client.Request
         public string Description { get; set; }
 
         [DataMember(Name = "privacy_type")]
-        public string PrivacyType { get; set; }
+        public PrivacyType PrivacyType { get; set; }
 
         [DataMember(Name = "name")]
         public string Name { get; set; }        

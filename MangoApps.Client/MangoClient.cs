@@ -78,16 +78,17 @@ namespace MangoApps.Client
             return await ExecutePostAsync(new LoginRequest(parameters));
         }
 
-        public async Task<LoggedInUser> InviteUsers(IEnumerable<string> emails)
+        public async Task<InviteUserResponse> InviteUsers(IEnumerable<string> emails)
         {
             var result = await _client.PostAsync(URL.Users + ".json", new RequestParametersContainer<InviteUserRequestParameters> { Request = new InviteUserRequestParameters { User = new InviteUserRequestUser { Email = new InviteUserRequestIds { Ids = emails.ToList() } } } }, _jsonFormatter);
-            return result.Content.ReadAsAsync<ResponseContainer<LoginResponse>>().Result.Response.User;
+            return result.Content.ReadAsAsync<ResponseContainer<InviteUserResponse>>().Result.Response;
         }
 
-        public async Task<GroupResponse> CreateAGroup(string name, string description, string privacyType)
+        public async Task<CreateGroupResponse> CreateAGroup(string name, string description, string privacyType)
         {
-            var result = await _client.PostAsync(URL.Groups + ".json", new RequestParametersContainer<CreateGroupRequest> { Request = new CreateGroupRequest { Group = new CreateGroupRequestParameters { Name = name, Description = description, PrivacyType = privacyType } } }, _jsonFormatter);
-            return result.Content.ReadAsAsync<ResponseContainer<GroupResponse>>().Result.Response;
+            var result = await _client.PostAsync(URL.Groups + ".json", , _jsonFormatter);
+            var x = result.Content.ReadAsAsync<ResponseContainer<CreateGroupResponse>>().Result.Response;
+            return await ExecutePostAsync(new RequestParametersContainer<CreateGroupRequest> { Request = new CreateGroupRequest { Group = new CreateGroupRequestParameters { Name = name, Description = description, PrivacyType = privacyType } } });
         }
 
         //public async Task<UserWallFeedResponse> StatusUpdate(string message)

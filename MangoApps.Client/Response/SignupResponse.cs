@@ -3,11 +3,8 @@
 namespace MangoApps.Client.Response
 {
     [DataContract]
-    public class SignupResponse
+    public class SignupResponse : TransactionResponse
     {
-        [DataMember(Name = "transaction_id")]
-        public string TransactionId { get; set; }
-
         [DataMember(Name = "user")]
         public SignedUpUser User { get; set; }
     }

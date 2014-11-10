@@ -4,9 +4,8 @@ using System.Runtime.Serialization;
 namespace MangoApps.Client.Response
 {
     [DataContract]
-    public class ErrorResponse : TransactionResponse
+    public class GetWikisResponse : TransactionResponse
     {
-        [DataMember(Name = "error")]
-        public List<string> Errors { get; set; }
+        public List<Wiki> Wikis { get; set; }
     }
 }

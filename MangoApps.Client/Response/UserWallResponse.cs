@@ -7,11 +7,8 @@ using Newtonsoft.Json;
 namespace MangoApps.Client.Response
 {
     [DataContract]
-    public class UserWallResponse
+    public class UserWallResponse : TransactionResponse
     {
-        [DataMember(Name = "transaction_id")]
-        public string TransactionId { get; set; }
-
         [DataMember(Name = "feed")]
         public UserWallFeedResponse Feed { get; set; }
     }
