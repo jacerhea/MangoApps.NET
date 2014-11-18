@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace MangoApps.Client.Request.Parameters
+namespace MangoApps.Client.Request
 {
     [DataContract]
-    public class InviteUserRequestParameters
+    public class InviteUserRequest
     {
         [DataMember(Name = "user")]
         public InviteUserRequestUser User { get; set; }

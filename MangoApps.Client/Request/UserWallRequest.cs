@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace MangoApps.Client.Request.Parameters
+namespace MangoApps.Client.Request
 {
     [DataContract]
-    public class PostACommentRequestParameters
+    public class UserWallRequest
     {
-        [DataMember(Name = "comment")]
-        public PostACommentComment Comment { get; set; }
+        [DataMember(Name = "feed")]
+        public UserWallFeed Feed { get; set; }
     }
 
     [DataContract]
-    public class PostACommentComment
+    public class UserWallFeed
     {
         [DataMember(Name = "attachments")]
         public List<string> Attachments { get; set; }
@@ -19,4 +19,5 @@ namespace MangoApps.Client.Request.Parameters
         [DataMember(Name = "body")]
         public string Body { get; set; }
     }
+
 }

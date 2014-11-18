@@ -1,6 +1,7 @@
 ﻿using System.Runtime.Serialization;
+using MangoApps.Client.Request.Parameters;
 
-namespace MangoApps.Client.Request.Parameters
+namespace MangoApps.Client.Request
 {
     [DataContract]
     public class CreateGroupRequestParameters

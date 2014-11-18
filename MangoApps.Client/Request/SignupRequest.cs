@@ -1,10 +1,11 @@
 ﻿using System.Runtime.Serialization;
 
-namespace MangoApps.Client.Request.Parameters
+namespace MangoApps.Client.Request
 {
     [DataContract]
     public class SignupRequest
     {
+        [DataMember(Name = "user")]
         public SignupUser User { get; set; }
     }
 
@@ -21,9 +22,22 @@ namespace MangoApps.Client.Request.Parameters
         public string LastName { get; set; }
 
         [DataMember(Name = "plan")]
-        public string Plan { get; set; }
+        public PlanTypes? Plan { get; set; }
 
         [DataMember(Name = "partner_code")]
         public string PartnerCode { get; set; }
+    }
+
+    [DataContract]
+    public enum PlanTypes
+    {
+        [DataMember(Name = "basic")]
+        Basic,
+
+        [DataMember(Name = "premiere")]
+        Premiere,
+
+        [DataMember(Name = "enterprise")]
+        Enterprise
     }
 }

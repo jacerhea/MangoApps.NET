@@ -28,78 +28,91 @@ namespace MangoApps.Client
             _client = new HttpClient(_httpClientHandler) { BaseAddress = new Uri(apiURI) };
         }
 
-        public async Task<TResponse> ExecutePostAsync<TRequestParameters, TResponse>(
-            IRequest<TRequestParameters, TResponse> request) where TResponse : new()
+        public async Task<T> ReadResult<T>(HttpResponseMessage response)
         {
-            HttpResponseMessage result = null;
-            if (request.Method.Equals(HttpMethod.Get))
+            if (response.IsSuccessStatusCode)
             {
-                throw new NotImplementedException();
-            }
-            else if (request.Method.Equals(HttpMethod.Post))
-            {
-                result = await _client.PostAsync(request.URL + ".json", request.Container, _jsonFormatter);                
-            }
-
-            if (result.IsSuccessStatusCode)
-            {
-                var responseResult = await result.Content.ReadAsAsync<ResponseContainer<TResponse>>();
+                var responseResult = await response.Content.ReadAsAsync<ResponseContainer<T>>();
                 return responseResult.Response;
             }
             else
             {
                 try
                 {
-                    result.EnsureSuccessStatusCode();
+                    response.EnsureSuccessStatusCode();
                 }
                 catch (Exception e)
                 {
-                    var errorResponse = result.Content.ReadAsAsync<ErrorResponse>();
+                    var errorResponse = response.Content.ReadAsAsync<ErrorResponse>();
                     throw new MangoException(e.Message, e) { ErrorResponse = errorResponse.Result };
                 }
                 finally
                 {
                     throw new Exception();
                 }
-            }
+            }            
         }
 
-        public async Task<SignedUpUser> Signup(string email, string firstName, string lastName, string plan = null, string partnerCode = null)
+        public async Task<SignupResponse> Signup(string email, string firstName, string lastName, PlanTypes? plan = null, string partnerCode = null)
         {
             var user = new SignupUser { Email = email, FirstName = firstName, LastName = lastName, PartnerCode = partnerCode, Plan = plan };
             var result = await _client.PostAsync(URL.Login + ".json", new RequestParametersContainer<SignupUser> { Request = user }, _jsonFormatter);
-            return result.Content.ReadAsAsync<ResponseContainer<SignupResponse>>().Result.Response.User;
+            return await ReadResult<SignupResponse>(result);
         }
 
         public async Task<LoginResponse> Login(string userName, string password, string apiKey)
         {
             var encodedPassword = Encoder.ToBase64String(password);
-            var parameters = new LoginRequestParameters { User = new LoginUser { UserName = userName, Password = encodedPassword, APIKey = apiKey } };
-            return await ExecutePostAsync(new LoginRequest(parameters));
+            var parameters = new LoginRequest { User = new LoginUser { UserName = userName, Password = encodedPassword, APIKey = apiKey } };
+            var result = await _client.PostAsync(URL.Users + ".json", new RequestParametersContainer<LoginRequest> { Request = parameters }, _jsonFormatter);
+            return await ReadResult<LoginResponse>(result);
         }
 
         public async Task<InviteUserResponse> InviteUsers(IEnumerable<string> emails)
         {
-            var result = await _client.PostAsync(URL.Users + ".json", new RequestParametersContainer<InviteUserRequestParameters> { Request = new InviteUserRequestParameters { User = new InviteUserRequestUser { Email = new InviteUserRequestIds { Ids = emails.ToList() } } } }, _jsonFormatter);
+            var result = await _client.PostAsync(URL.Users + ".json", new RequestParametersContainer<InviteUserRequest> { Request = new InviteUserRequest { User = new InviteUserRequestUser { Email = new InviteUserRequestIds { Ids = emails.ToList() } } } }, _jsonFormatter);
             return result.Content.ReadAsAsync<ResponseContainer<InviteUserResponse>>().Result.Response;
         }
 
-        public async Task<CreateGroupResponse> CreateAGroup(string name, string description, string privacyType)
+        public async Task<CreateGroupResponse> CreateAGroup(string name, string description, PrivacyType privacyType)
         {
-            var result = await _client.PostAsync(URL.Groups + ".json", , _jsonFormatter);
-            var x = result.Content.ReadAsAsync<ResponseContainer<CreateGroupResponse>>().Result.Response;
-            return await ExecutePostAsync(new RequestParametersContainer<CreateGroupRequest> { Request = new CreateGroupRequest { Group = new CreateGroupRequestParameters { Name = name, Description = description, PrivacyType = privacyType } } });
+            var result = await _client.PostAsync(URL.Groups + ".json", new RequestParametersContainer<CreateGroupRequest>{ Request = new CreateGroupRequest{Group = new CreateGroupRequestParameters{Name = name, Description = description, PrivacyType = privacyType}} }, _jsonFormatter);
+            return await ReadResult<CreateGroupResponse>(result);
         }
 
-        //public async Task<UserWallFeedResponse> StatusUpdate(string message)
-        //{
-        //    var result = await _client.PostAsync(URL.Users + string.Format("/{0}/wall.json", userId),
-        //                new RequestParametersContainer<UserWallRequestParameters>
-        //                {
-        //                    Request = new UserWallRequestParameters { Feed = new UserWallFeed { Body = body } }
-        //                }, _jsonFormatter);
-        //    return result.Content.ReadAsAsync<ResponseContainer<UserWallResponse>>().Result.Response.Feed;
-        //}
+        public async Task<CreateGroupResponse> CreateProject(string email)
+        {
+            var result = await _client.PostAsync(URL.Projects + ".json", new RequestParametersContainer<CreateProjectRequest> { Request = new CreateProjectRequest {Project = new CreateProjectUser{Email = email}}}, _jsonFormatter);
+            return await ReadResult<CreateGroupResponse>(result);
+        }
+
+        public async Task<CreateHuddleResponse> CreateHuddle(string huddleOrganizerEmail, IEnumerable<string> membersEmail, string userName = null)
+        {
+            var result = await _client.PostAsync(URL.Huddle + ".json", new RequestParametersContainer<CreateHuddleRequest> { Request = new CreateHuddleRequest { Huddle = new Request.Huddle {EmailId = huddleOrganizerEmail, UserName = userName, MemberList = membersEmail.ToList()} } }, _jsonFormatter);
+            return await ReadResult<CreateHuddleResponse>(result);
+        }
+
+        public async Task<CreateGroupResponse> AddMembersToGroup(IEnumerable<string> membersEmail)
+        {
+            var result = await _client.PostAsync(URL.Huddle + ".json", new RequestParametersContainer<CreateHuddleRequest> { Request = new CreateHuddleRequest { Huddle = new Request.Huddle { MemberList = membersEmail.ToList() } } }, _jsonFormatter);
+            return await ReadResult<CreateGroupResponse>(result);
+        }
+
+        public async Task LeaveProjectOrGroup(string conversationId)
+        {
+            var response =  await _client.DeleteAsync(URL.Conversations + "/" + conversationId + "/leave");
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task<UserWallFeedResponse> StatusUpdate(string message)
+        {
+            var result = await _client.PostAsync(URL.Users + string.Format("/{0}/wall.json"),
+                        new RequestParametersContainer<UserWallRequest>
+                        {
+                            Request = new UserWallRequest { Feed = new UserWallFeed { Body = message } }
+                        }, _jsonFormatter);
+            return result.Content.ReadAsAsync<ResponseContainer<UserWallResponse>>().Result.Response.Feed;
+        }
 
         public async Task<GetAllUsersResponse> GetAllUsers()
         {
@@ -126,11 +139,10 @@ namespace MangoApps.Client
 
         public async Task<UserWallFeedResponse> PostToWall(int userId, string body)
         {
-            var result = await
-                    _client.PostAsync(URL.Users + string.Format("/{0}/wall.json", userId),
-                        new RequestParametersContainer<UserWallRequestParameters>
+            var result = await _client.PostAsync(URL.Users + string.Format("/{0}/wall.json", userId),
+                        new RequestParametersContainer<UserWallRequest>
                         {
-                            Request = new UserWallRequestParameters { Feed = new UserWallFeed { Body = body } }
+                            Request = new UserWallRequest { Feed = new UserWallFeed { Body = body } }
                         }, _jsonFormatter);
             return result.Content.ReadAsAsync<ResponseContainer<UserWallResponse>>().Result.Response.Feed;
         }

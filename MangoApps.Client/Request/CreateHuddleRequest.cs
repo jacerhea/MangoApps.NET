@@ -4,14 +4,14 @@ using System.Runtime.Serialization;
 namespace MangoApps.Client.Request
 {
     [DataContract]
-    public class CreateAHuddleRequest
+    public class CreateHuddleRequest
     {
-        [DataMember]
-        public CreateAHuddleRequestParameters Huddle { get; set; }
+        [DataMember(Name = "huddle")]
+        public Huddle Huddle { get; set; }
     }
 
     [DataContract]
-    public class CreateAHuddleRequestParameters
+    public class Huddle
     {
         [DataMember(Name = "email_id")]
         public string EmailId { get; set; }

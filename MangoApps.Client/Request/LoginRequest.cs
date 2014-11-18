@@ -1,18 +1,24 @@
-﻿using System.Net.Http;
-using MangoApps.Client.Request.Parameters;
-using MangoApps.Client.Response;
+﻿using System.Runtime.Serialization;
 
 namespace MangoApps.Client.Request
 {
-    public class LoginRequest : IRequest<LoginRequestParameters, LoginResponse>
+    [DataContract]
+    public class LoginRequest
     {
-        public LoginRequest(LoginRequestParameters loginRequestParameters)
-        {
-            Container = new RequestParametersContainer<LoginRequestParameters> { Request = loginRequestParameters };
-        }
+        [DataMember(Name = "user")]
+        public LoginUser User { get; set; }
+    }
 
-        public string URL { get { return Client.URL.Login; } }
-        public HttpMethod Method { get { return HttpMethod.Post; } }
-        public RequestParametersContainer<LoginRequestParameters> Container { get; private set; }
+    [DataContract]
+    public class LoginUser
+    {
+        [DataMember(Name = "password")]
+        public string Password { get; set; }
+
+        [DataMember(Name = "username")]
+        public string UserName { get; set; }
+
+        [DataMember(Name = "api_key")]
+        public string APIKey { get; set; }
     }
 }

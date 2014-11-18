@@ -5,18 +5,14 @@ namespace MangoApps.Client.Request
     [DataContract]
     public class CreateProjectRequest
     {
-        public CreateProjectRequestParameters Project { get; set; }
+        [DataMember(Name = "user")]
+        public CreateProjectUser Project { get; set; }
     }
 
-    public class CreateProjectRequestParameters
+    [DataContract]
+    public class CreateProjectUser
     {
-        [DataMember(Name = "description")]
-        public string Description { get; set; }
-
-        [DataMember(Name = "privacy_type")]
-        public string PrivacyType { get; set; }
-
-        [DataMember(Name = "name")]
-        public string Name { get; set; }
+        [DataMember(Name = "email")]
+        public string Email { get; set; }
     }
 }
