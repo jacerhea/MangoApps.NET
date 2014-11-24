@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MangoApps.Client</name>
+    </assembly>
+    <members>
+        <member name="T:MangoApps.Client.MangoClient">
+            <summary>
+      The summary for this type.
+    </summary>
+        </member>
+        <member name="M:MangoApps.Client.MangoClient.#ctor(System.String)">
+            <summary>
+      Create an instance of MangoClient with url of the targeted api.
+    </summary><param name="apiURI"></param>
+        </member>
+    </members>
+</doc>
