@@ -52,9 +52,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converter\SecondEpochConverter.cs" />
+    <Compile Include="Converter\YNConverter.cs" />
     <Compile Include="Encoder.cs" />
     <Compile Include="MangoClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Request\GroupMembersSyncRequest.cs" />
     <Compile Include="Request\AskQuestionRequest.cs" />
     <Compile Include="Request\ChangePasswordRequest.cs" />
     <Compile Include="Request\CreateHuddleRequest.cs" />
@@ -67,7 +69,6 @@
     <Compile Include="Request\MoveFolderToFolderRequest.cs" />
     <Compile Include="Request\CreateGroupRequestParameters.cs" />
     <Compile Include="Request\CreateProjectRequest.cs" />
-    <Compile Include="Request\IRequest.cs" />
     <Compile Include="Request\GroupWallRequest.cs" />
     <Compile Include="Request\InviteUserRequest.cs" />
     <Compile Include="Request\LoginRequest.cs" />
@@ -75,21 +76,25 @@
     <Compile Include="Request\PostCommentRequest.cs" />
     <Compile Include="DataTypes\PrivacyType.cs" />
     <Compile Include="Request\PostTaskRequest.cs" />
+    <Compile Include="Request\ProjectMembersSyncRequest.cs" />
     <Compile Include="Request\ProjectWallRequest.cs" />
     <Compile Include="Request\RequestParametersContainer.cs" />
     <Compile Include="Request\SignupRequest.cs" />
     <Compile Include="Request\StatusUpdateRequest.cs" />
     <Compile Include="Request\TaskLifecycleRequest.cs" />
     <Compile Include="Request\UploadFileRequest.cs" />
+    <Compile Include="Request\UserStates.cs" />
     <Compile Include="Request\UserWallRequest.cs" />
     <Compile Include="Request\RemoveMembersFromGroupRequest.cs" />
     <Compile Include="Request\RenameFolderRequest.cs" />
     <Compile Include="Response\AddMembersToAGroupResponse.cs" />
     <Compile Include="Response\AddMembersToAProjectResponse.cs" />
+    <Compile Include="Response\Audit.cs" />
+    <Compile Include="Response\BasicUser.cs" />
     <Compile Include="Response\ChangePasswordResponse.cs" />
     <Compile Include="Response\CreateFolderResponse.cs" />
     <Compile Include="Response\CreateHuddleResponse.cs" />
-    <Compile Include="Response\CreateAProjectResponse.cs" />
+    <Compile Include="Response\CreateProjectResponse.cs" />
     <Compile Include="Response\EditSelfCreatedGroupOrProjectResponse.cs" />
     <Compile Include="Response\EditTaskResponse.cs" />
     <Compile Include="Response\ErrorResponse.cs" />
@@ -115,6 +120,7 @@
     <Compile Include="Response\ResponseContainer.cs" />
     <Compile Include="Response\SignupResponse.cs" />
     <Compile Include="Response\SingleTaskResponse.cs" />
+    <Compile Include="Response\StatusUpdateResponse.cs" />
     <Compile Include="Response\TransactionResponse.cs" />
     <Compile Include="Response\UploadFileResponse.cs" />
     <Compile Include="Response\UserProfileInfoResponse.cs" />

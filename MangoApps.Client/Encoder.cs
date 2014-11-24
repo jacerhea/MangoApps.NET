@@ -7,7 +7,7 @@ namespace MangoApps.Client
     {
         public static String ToBase64String(string source)
         {
-            return Convert.ToBase64String(Encoding.UTF8.GetBytes(source.ToCharArray()));
+            return Convert.ToBase64String(Encoding.UTF32.GetBytes(source.ToCharArray()));
         }
     }
 }

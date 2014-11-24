@@ -3,9 +3,9 @@
 namespace MangoApps.Client.Request
 {
     [DataContract]
-    public class CreateProjectRequest
+    public class ProjectMembersSyncRequest
     {
         [DataMember(Name = "project")]
-        public CreateGroupRequestParameters Project { get; set; }
+        public ProjectGroupSync Project { get; set; }
     }
 }

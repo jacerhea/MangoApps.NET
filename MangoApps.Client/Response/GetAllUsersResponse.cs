@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using MangoApps.Client.Converter;
+using Newtonsoft.Json;
 
 namespace MangoApps.Client.Response
 {
@@ -32,7 +34,8 @@ namespace MangoApps.Client.Response
         public string PresenceString { get; set; }
 
         [DataMember(Name = "has_default_photo")]
-        public string HasDefaultPhoto { get; set; }
+        [JsonConverter(typeof(YNConverter))]
+        public bool HasDefaultPhoto { get; set; }
 
         [DataMember(Name = "custom_status")]
         public string CustomStatus { get; set; }

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using MangoApps.Client.Converter;
+using Newtonsoft.Json;
 
 namespace MangoApps.Client.Response
 {
@@ -7,11 +9,11 @@ namespace MangoApps.Client.Response
     public class CreateGroupResponse : TransactionResponse
     {
         [DataMember(Name = "group")]
-        public Group Group { get; set; }
+        public GroupOrProject Group { get; set; }
     }
 
     [DataContract]
-    public class Group
+    public class GroupOrProject
     {
         [DataMember(Name = "photo")]
         public string Photo { get; set; }
@@ -20,6 +22,7 @@ namespace MangoApps.Client.Response
         public string Name { get; set; }
 
         [DataMember(Name = "created_at")]
+        [JsonConverter(typeof(SecondEpochConverter))]
         public string CreatedAt { get; set; }
 
         [DataMember(Name = "upload_access")]

@@ -1,16 +1,18 @@
 ﻿using System.Runtime.Serialization;
+using MangoApps.Client.Converter;
+using Newtonsoft.Json;
 
 namespace MangoApps.Client.Response
 {
     [DataContract]
     public class EditSelfCreatedGroupOrProjectResponse : TransactionResponse
     {
-        [DataMember(Name = "photo")]
+        [DataMember(Name = "conversation")]
         public Conversation Conversation { get; set; }
     }
 
     [DataContract]
-    public class Conversation
+    public class Conversation : Audit
     {
         [DataMember(Name = "photo")]
         public string Photo { get; set; }
@@ -22,12 +24,13 @@ namespace MangoApps.Client.Response
         public string Name { get; set; }
 
         [DataMember(Name = "is_group")]
-        public string IsGroup { get; set; }
+        [JsonConverter(typeof(YNConverter))]
+        public bool IsGroup { get; set; }
 
         [DataMember(Name = "creator_id")]
         public string CreatorId { get; set; }
 
         [DataMember(Name = "has_default_photo")]
-        public string HasDefaultPhoto { get; set; }
+        public bool HasDefaultPhoto { get; set; }
     }
 }

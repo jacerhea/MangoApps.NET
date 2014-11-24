@@ -16,6 +16,7 @@ namespace MangoApps.Client
         private readonly HttpClient _client;
         private readonly HttpClientHandler _httpClientHandler;
         private static readonly JsonMediaTypeFormatter _jsonFormatter = new JsonMediaTypeFormatter();
+        private const string JSON = ".json";
 
         public MangoClient(string apiURI)
         {
@@ -62,9 +63,9 @@ namespace MangoApps.Client
 
         public async Task<LoginResponse> Login(string userName, string password, string apiKey)
         {
-            var encodedPassword = Encoder.ToBase64String(password);
-            var parameters = new LoginRequest { User = new LoginUser { UserName = userName, Password = encodedPassword, APIKey = apiKey } };
-            var result = await _client.PostAsync(URL.Users + ".json", new RequestParametersContainer<LoginRequest> { Request = parameters }, _jsonFormatter);
+            //var encodedPassword = Encoder.ToBase64String(password);
+            var parameters = new LoginRequest { User = new LoginUser { UserName = userName, Password = password, APIKey = apiKey } };
+            var result = await _client.PostAsync(URL.Login + ".json", new RequestParametersContainer<LoginRequest> { Request = parameters }, _jsonFormatter);
             return await ReadResult<LoginResponse>(result);
         }
 
@@ -74,23 +75,29 @@ namespace MangoApps.Client
             return result.Content.ReadAsAsync<ResponseContainer<InviteUserResponse>>().Result.Response;
         }
 
-        public async Task<CreateGroupResponse> CreateAGroup(string name, string description, PrivacyType privacyType)
+        public async Task<CreateGroupResponse> CreateGroup(string name, string description, PrivacyType privacyType)
         {
-            var result = await _client.PostAsync(URL.Groups + ".json", new RequestParametersContainer<CreateGroupRequest>{ Request = new CreateGroupRequest{Group = new CreateGroupRequestParameters{Name = name, Description = description, PrivacyType = privacyType}} }, _jsonFormatter);
+            var result = await _client.PostAsync(URL.Groups + JSON, new RequestParametersContainer<CreateGroupRequest>{ Request = new CreateGroupRequest{Group = new CreateGroupRequestParameters{Name = name, Description = description, PrivacyType = privacyType}} }, _jsonFormatter);
             return await ReadResult<CreateGroupResponse>(result);
         }
 
-        public async Task<CreateGroupResponse> CreateProject(string email)
+        public async Task<CreateProjectResponse> CreateProject(string name, string description, PrivacyType privacyType)
         {
-            var result = await _client.PostAsync(URL.Projects + ".json", new RequestParametersContainer<CreateProjectRequest> { Request = new CreateProjectRequest {Project = new CreateProjectUser{Email = email}}}, _jsonFormatter);
-            return await ReadResult<CreateGroupResponse>(result);
+            var result = await _client.PostAsync(URL.Projects + JSON, new RequestParametersContainer<CreateProjectRequest> { Request = new CreateProjectRequest { Project = new CreateGroupRequestParameters { Name = name, Description = description, PrivacyType = privacyType} } }, _jsonFormatter);
+            return await ReadResult<CreateProjectResponse>(result);
         }
 
         public async Task<CreateHuddleResponse> CreateHuddle(string huddleOrganizerEmail, IEnumerable<string> membersEmail, string userName = null)
         {
-            var result = await _client.PostAsync(URL.Huddle + ".json", new RequestParametersContainer<CreateHuddleRequest> { Request = new CreateHuddleRequest { Huddle = new Request.Huddle {EmailId = huddleOrganizerEmail, UserName = userName, MemberList = membersEmail.ToList()} } }, _jsonFormatter);
+            var result = await _client.PostAsync(URL.Huddle + JSON, new RequestParametersContainer<CreateHuddleRequest> { Request = new CreateHuddleRequest { Huddle = new Request.Huddle {EmailId = huddleOrganizerEmail, UserName = userName, MemberList = membersEmail.ToList()} } }, _jsonFormatter);
             return await ReadResult<CreateHuddleResponse>(result);
         }
+
+        public async Task<EditSelfCreatedGroupOrProjectResponse> EditSelfCreatedGroupProject(int id, string name, string description)
+        {
+            var result = await _client.PutAsync(URL.Conversations + "/" + id + JSON, new RequestParametersContainer<EditSelfCreatedGroupProjectRequest> { Request = new EditSelfCreatedGroupProjectRequest { Conversation = new Request.Conversation { Name = name, Description = description} } }, _jsonFormatter);
+            return await ReadResult<EditSelfCreatedGroupOrProjectResponse>(result);            
+        } 
 
         public async Task<CreateGroupResponse> AddMembersToGroup(IEnumerable<string> membersEmail)
         {
@@ -104,37 +111,57 @@ namespace MangoApps.Client
             response.EnsureSuccessStatusCode();
         }
 
-        public async Task<UserWallFeedResponse> StatusUpdate(string message)
+        public async Task<StatusUpdateResponse> StatusUpdate(string message)
         {
-            var result = await _client.PostAsync(URL.Users + string.Format("/{0}/wall.json"),
-                        new RequestParametersContainer<UserWallRequest>
+            var result = await _client.PostAsync(URL.Feeds + JSON,
+                        new RequestParametersContainer<StatusUpdateRequest>
                         {
-                            Request = new UserWallRequest { Feed = new UserWallFeed { Body = message } }
+                            Request = new StatusUpdateRequest { Feed = new StatusUpdateFeed { Body = message, FeedType = "status"} }
                         }, _jsonFormatter);
-            return result.Content.ReadAsAsync<ResponseContainer<UserWallResponse>>().Result.Response.Feed;
+            return await ReadResult<StatusUpdateResponse>(result);
         }
 
         public async Task<GetAllUsersResponse> GetAllUsers()
         {
-            var result = await _client.GetAsync(URL.Users + ".json");
+            var result = await _client.GetAsync(URL.UsersChangeState + JSON  + "?limit=1000");
             return result.Content.ReadAsAsync<ResponseContainer<GetAllUsersResponse>>().Result.Response;
         }
 
-        public async Task<UserProfileInfo> GetUser(int userId)
+        public async Task<GetAllUsersResponse> ActivateDeactivateUsers(IEnumerable<int> ids, UserStates state)
         {
-            var result = await _client.GetAsync(URL.Users + string.Format("/{0}.json", userId));
-            return result.Content.ReadAsAsync<ResponseContainer<UserProfileInfoResponse>>().Result.Response.User;
+            var result = await _client.PutAsync(URL.UsersChangeState + JSON, (string)null, _jsonFormatter);
+            return result.Content.ReadAsAsync<ResponseContainer<GetAllUsersResponse>>().Result.Response;
+        }
+
+        public async Task<UserProfileInfoResponse> GetUser(int userId)
+        {
+            var result = await _client.GetAsync(URL.Users + string.Format("/{0}" + JSON, userId));
+            return await ReadResult<UserProfileInfoResponse>(result);
         }
 
         public async Task<GetAllGroupsResponse> GetAllGroups()
         {
-            var result = await _client.GetAsync(URL.Groups + ".json?all=true");
+            var result = await _client.GetAsync(URL.Groups + ".json?limit=true");
             return result.Content.ReadAsAsync<ResponseContainer<GetAllGroupsResponse>>().Result.Response;
+        }
+
+
+        public async Task<GetAllGroupsResponse> GetMyGroups()
+        {
+            var result = await _client.GetAsync(URL.Groups + JSON);
+            return result.Content.ReadAsAsync<ResponseContainer<GetAllGroupsResponse>>().Result.Response;
+        }
+
+
+        public async Task<GetAllGroupsResponse> GetProjectTimesheet(int projectId)
+        {
+            var result = await _client.GetAsync(URL.ProjectTimeSheet.Replace("{project_id}", projectId.ToString()) + JSON);
+            return await ReadResult<GetAllGroupsResponse>(result);
         }
 
         public async Task Logout()
         {
-            await _client.PostAsync(URL.Logout + ".json", new StringContent(""), _jsonFormatter);
+            await _client.PostAsync(URL.Logout + ".json", (string)null, _jsonFormatter);
         }
 
         public async Task<UserWallFeedResponse> PostToWall(int userId, string body)

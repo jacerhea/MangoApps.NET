@@ -5,6 +5,7 @@
         public const string Login = "/api/login";
         public const string Logout = "/api/logout";
         public static string Users = "/api/users";
+        public static string UsersChangeState = "/api/users/change_user_state";
         public static string Groups = "/api/groups";
         public static string AddMembersToGroup = "/api/groups/{group_id}/members/manage";
         public static string RemovedMembersFromGroup = "/api/groups/{group_id}/members/manage";

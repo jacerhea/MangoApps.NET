@@ -1,0 +1,17 @@
+﻿<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>MangoApps.NET</id>
+    <version>0.5.0</version>
+    <title>MangoApps client for .NET</title>
+    <authors>Jace Rhea</authors>
+    <owners>Jace Rhea</owners>
+    <projectUrl>https://github.com/jacerhea/MangoApps.NET</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description></description>
+    <summary></summary>
+    <releaseNotes></releaseNotes>
+    <language>en-US</language>
+    <tags>mangoapps mango apps api .net client</tags>
+  </metadata>
+</package>

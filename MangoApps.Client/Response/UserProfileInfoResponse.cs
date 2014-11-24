@@ -49,6 +49,14 @@ namespace MangoApps.Client.Response
         [DataMember(Name = "following")]
         public int Following { get; set; }
 
+        [DataMember(Name = "is_following")]
+        [JsonConverter(typeof(YNConverter))]
+        public bool IsFollowing { get; set; }
+
+        [DataMember(Name = "following_me")]
+        [JsonConverter(typeof(YNConverter))]
+        public bool FollowingMe { get; set; }
+
         [DataMember(Name = "about_me")]
         public string AboutMe { get; set; }
 
@@ -84,7 +92,7 @@ namespace MangoApps.Client.Response
         public string CommentsOrder { get; set; }
 
         [DataMember(Name = "presence_option_id")]
-        public int PresenceOptionId { get; set; }
+        public int? PresenceOptionId { get; set; }
 
         [DataMember(Name = "presence_string")]
         public string PresenceString { get; set; }
