@@ -15,9 +15,9 @@ namespace MangoApps.Client.Response
         public string Email { get; set; }
 
         [DataMember(Name = "photo")]
-        public string photo { get; set; }
+        public string Photo { get; set; }
 
-        [DataMember(Name = "PresenceOptionId")]
+        [DataMember(Name = "presence_option_id")]
         public int PresenceOptionId { get; set; }
     }
 }

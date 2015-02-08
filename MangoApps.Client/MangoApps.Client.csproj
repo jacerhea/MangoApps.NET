@@ -92,7 +92,6 @@
     <Compile Include="Response\AddMembersToAProjectResponse.cs" />
     <Compile Include="Response\Audit.cs" />
     <Compile Include="Response\BasicUser.cs" />
-    <Compile Include="Response\ChangePasswordResponse.cs" />
     <Compile Include="Response\CreateFolderResponse.cs" />
     <Compile Include="Response\CreateHuddleResponse.cs" />
     <Compile Include="Response\CreateProjectResponse.cs" />

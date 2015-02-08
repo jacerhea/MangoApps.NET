@@ -12,44 +12,44 @@ namespace MangoApps.Client.Response
     [DataContract]
     public class Huddle
     {
-        [DataMember(Name = "huddle")]
+        [DataMember(Name = "name")]
         public string Name { get; set; }
 
-        [DataMember(Name = "huddle")]
+        [DataMember(Name = "status")]
         public string Status { get; set; }
 
-        [DataMember(Name = "huddle")]
+        [DataMember(Name = "members")]
         public HuddleMembers Members { get; set; }
 
-        [DataMember(Name = "huddle")]
+        [DataMember(Name = "id")]
         public string Id { get; set; }
 
-        [DataMember(Name = "huddle")]
+        [DataMember(Name = "privacy")]
         public string Privacy { get; set; }
 
-        [DataMember(Name = "huddle")]
+        [DataMember(Name = "description")]
         public string Description { get; set; }
 
-        [DataMember(Name = "huddle")]
+        [DataMember(Name = "state")]
         public string State { get; set; }
     }
 
     [DataContract]
     public class HuddleMembers
     {
-        [DataMember(Name = "huddle")]
+        [DataMember(Name = "name")]
         public string Name { get; set; }
 
-        [DataMember(Name = "huddle")]
+        [DataMember(Name = "id")]
         public string Id { get; set; }
 
-        [DataMember(Name = "huddle")]
+        [DataMember(Name = "email")]
         public string Email { get; set; }
 
-        [DataMember(Name = "huddle")]
+        [DataMember(Name = "huddle_status")]
         public string HuddleStatus { get; set; }
 
-        [DataMember(Name = "huddle")]
+        [DataMember(Name = "huddle_joined_on")]
         public string HuddleJoinedOn { get; set; }
     }
 }

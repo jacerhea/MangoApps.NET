@@ -5,7 +5,7 @@ namespace MangoApps.Client.Request
     [DataContract]
     public class MoveFolderToFolderRequest
     {
-        [DataMember(Name = "folders")]
+        [DataMember(Name = "files")]
         public Folders Folders { get; set; }
     }
 

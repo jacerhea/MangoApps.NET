@@ -17,9 +17,9 @@ namespace MangoApps.Client.Request
         public List<string> AddMemberEmails { get; set; }
 
         [DataMember(Name = "add_member_ids")]
-        public List<string> AddMemberIds { get; set; }
+        public List<int> AddMemberIds { get; set; }
 
         [DataMember(Name = "remove_member_ids")]
-        public List<string> RemoveMemberIds { get; set; }
+        public List<int> RemoveMemberIds { get; set; }
     }
 }

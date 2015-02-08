@@ -6,10 +6,10 @@ namespace MangoApps.Client.Response
     [DataContract]
     public class AddMembersToAGroupResponse : TransactionResponse
     {
-        [DataMember]
+        [DataMember(Name = "group_id")]
         public string ProjectId { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "members")]
         public List<Member> Members { get; set; }
     }
 }
