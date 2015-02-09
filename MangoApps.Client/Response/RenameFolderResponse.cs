@@ -25,7 +25,7 @@ namespace MangoApps.Client.Response
         public string UserId { get; set; }
 
         [DataMember(Name = "is_virtual_folder")]
-        public string IsVirtualFolder { get; set; }
+        public bool IsVirtualFolder { get; set; }
 
         [DataMember(Name = "mlink")]
         public string MLink { get; set; }

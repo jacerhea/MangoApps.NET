@@ -6,20 +6,20 @@ namespace MangoApps.Client.Response
     [DataContract]
     public class GetProjectPostsResponse : TransactionResponse
     {
-        [DataMember]
+        [DataMember(Name = "posts")]
         public List<Posts> Posts { get; set; }
     }
 
     [DataContract]
     public class Posts
     {
-        [DataMember]
+        [DataMember(Name = "id")]
         public string Id { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "title")]
         public string Title { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "url")]
         public string URL { get; set; }
     }
 }

@@ -35,7 +35,7 @@
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -99,14 +99,16 @@
     <Compile Include="Response\EditTaskResponse.cs" />
     <Compile Include="Response\ErrorResponse.cs" />
     <Compile Include="Response\GetAllGroupsResponse.cs" />
+    <Compile Include="Response\GetAllMyTasks.cs" />
     <Compile Include="Response\GetAllPostsResponse.cs" />
     <Compile Include="Response\GetAllProjectsResponse.cs" />
     <Compile Include="Response\GetAllUsersResponse.cs" />
     <Compile Include="Response\CreateGroupResponse.cs" />
-    <Compile Include="Response\GetFilesInsideATeamResponse.cs" />
+    <Compile Include="Response\GetFilesInsideATeam.cs" />
     <Compile Include="Response\GetPinnedPostsResponse.cs" />
     <Compile Include="Response\GetProjectPostsResponse.cs" />
     <Compile Include="Response\GetProjectWikisResponse.cs" />
+    <Compile Include="Response\GetSingleFeedResponse.cs" />
     <Compile Include="Response\GetWikisResponse.cs" />
     <Compile Include="Response\InviteUserResponse.cs" />
     <Compile Include="Response\LoginResponse.cs" />

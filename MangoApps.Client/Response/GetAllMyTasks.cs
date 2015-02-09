@@ -4,9 +4,9 @@ using System.Runtime.Serialization;
 namespace MangoApps.Client.Response
 {
     [DataContract]
-    public class GetWikisResponse : TransactionResponse
+    public class GetAllMyTasks : TransactionResponse
     {
-        [DataMember(Name = "wikis")]
-        public List<Wiki> Wikis { get; set; }
+        [DataMember(Name = "tasks")]
+        public List<SingleTask> Tasks { get; set; }
     }
 }

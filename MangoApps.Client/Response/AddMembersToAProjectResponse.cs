@@ -11,5 +11,6 @@ namespace MangoApps.Client.Response
 
         [DataMember(Name = "members")]
         public List<Member> Members { get; set; }
+
     }
 }

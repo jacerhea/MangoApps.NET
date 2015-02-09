@@ -7,7 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MangoApps.Client", "MangoAp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{06342414-F1E7-4F3D-8BCF-7255DA425205}"
 	ProjectSection(SolutionItems) = preProject
-		MangoAppsNet.nuspec = MangoAppsNet.nuspec
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
