@@ -90,6 +90,7 @@
     <Compile Include="Request\RenameFolderRequest.cs" />
     <Compile Include="Response\AddMembersToAGroupResponse.cs" />
     <Compile Include="Response\AddMembersToAProjectResponse.cs" />
+    <Compile Include="Response\AskAQuestionResponse.cs" />
     <Compile Include="Response\Audit.cs" />
     <Compile Include="Response\BasicUser.cs" />
     <Compile Include="Response\CreateFolderResponse.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Response\InviteUserResponse.cs" />
     <Compile Include="Response\LoginResponse.cs" />
     <Compile Include="Response\MangoException.cs" />
+    <Compile Include="Response\MarkMultipleFeedAsReadResponse.cs" />
     <Compile Include="Response\PostACommentResponse.cs" />
     <Compile Include="Response\PostAVoteResponse.cs" />
     <Compile Include="Response\PostTaskResponse.cs" />

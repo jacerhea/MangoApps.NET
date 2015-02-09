@@ -1,0 +1,11 @@
+﻿using System.Runtime.Serialization;
+
+namespace MangoApps.Client.Response
+{
+    [DataContract]
+    public class AskAQuestionResponse : TransactionResponse
+    {
+        [DataMember(Name = "limit")]
+        public int Limit { get; set; }
+    }
+}
