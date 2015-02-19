@@ -64,7 +64,7 @@ namespace MangoApps.Client
             return await GetResult<CreateProjectResponse>(result);
         }
 
-        public async Task<CreateHuddleResponse> CreateHuddle(string huddleOrganizerEmail, IEnumerable<string> membersEmail, string userName = null)
+        public async Task<CreateHuddleResponse> CreateHuddle(string huddleOrganizerEmail, IEnumerable<string> membersEmail, string userName)
         {
             var result = await _client.PostAsync(URL.Huddle + JSON, new RequestParametersContainer<CreateHuddleRequest> { Request = new CreateHuddleRequest { Huddle = new Request.Huddle { EmailId = huddleOrganizerEmail, UserName = userName, MemberList = membersEmail.ToList() } } }, _jsonFormatter);
             return await GetResult<CreateHuddleResponse>(result);
@@ -76,9 +76,15 @@ namespace MangoApps.Client
             return await GetResult<EditSelfCreatedGroupOrProjectResponse>(result);
         }
 
-        public async Task<CreateGroupResponse> AddMembersToGroup(IEnumerable<string> membersEmail)
+        public async Task<CreateGroupResponse> AddMembersToGroup(int groupId, IEnumerable<string> addMemberEmails, IEnumerable<int> addMemberIds, IEnumerable<int> removeMemberIds )
         {
-            var result = await _client.PostAsync(URL.Huddle + JSON, new RequestParametersContainer<CreateHuddleRequest> { Request = new CreateHuddleRequest { Huddle = new Request.Huddle { MemberList = membersEmail.ToList() } } }, _jsonFormatter);
+            var result = await _client.PostAsync(URL.Groups + "/" + groupId + "/members.manage" + JSON, new RequestParametersContainer<GroupMembersSyncRequest> { Request = new GroupMembersSyncRequest { Group = new ProjectGroupSync { AddMemberEmails = addMemberEmails.ToList(), AddMemberIds = addMemberIds.ToList(), RemoveMemberIds = removeMemberIds.ToList()} } }, _jsonFormatter);
+            return await GetResult<CreateGroupResponse>(result);
+        }
+
+        public async Task<CreateGroupResponse> AddMembersToProject(int projectId, IEnumerable<string> addMemberEmails, IEnumerable<int> addMemberIds, IEnumerable<int> removeMemberIds)
+        {
+            var result = await _client.PostAsync(URL.Projects + "/" + projectId + "/members" + JSON, new RequestParametersContainer<ProjectMembersSyncRequest> { Request = new ProjectMembersSyncRequest { Project = new ProjectGroupSync { AddMemberEmails = addMemberEmails.ToList(), AddMemberIds = addMemberIds.ToList(), RemoveMemberIds = removeMemberIds.ToList() } } }, _jsonFormatter);
             return await GetResult<CreateGroupResponse>(result);
         }
 
