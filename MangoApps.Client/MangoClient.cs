@@ -147,10 +147,22 @@ namespace MangoApps.Client
             return await GetResult<RemoveMembersFromAGroupResponse>(result);
         }
 
-        public async Task<GetAllGroupsResponse> RemoveMembersFromAProject(int projectId, IEnumerable<int> memberIds)
+        public async Task<RemoveMembersFromAProjectResponse> RemoveMembersFromAProject(int projectId, IEnumerable<int> memberIds)
         {
-            var result = await _client.GetAsync(URL.Projects, projectId.ToString()) + JSON);
-            return await GetResult<GetAllGroupsResponse>(result);
+            var result = await _client.DeleteAsync(URL.Projects + "/" + projectId + "/members.manage" + JSON);
+            return await GetResult<RemoveMembersFromAProjectResponse>(result);
+        }
+
+        public async Task DeleteAGroup(int groupId)
+        {
+            var result = await _client.DeleteAsync(URL.Groups + "/" + groupId);
+            result.EnsureSuccessStatusCode();
+        }
+
+        public async Task DeleteAProject(int projectId)
+        {
+            var result = await _client.DeleteAsync(URL.Projects + "/" + projectId);
+            result.EnsureSuccessStatusCode();
         }
 
         public async Task Logout()
