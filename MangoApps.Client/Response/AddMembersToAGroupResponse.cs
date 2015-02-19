@@ -7,7 +7,7 @@ namespace MangoApps.Client.Response
     public class AddMembersToAGroupResponse : TransactionResponse
     {
         [DataMember(Name = "group_id")]
-        public string ProjectId { get; set; }
+        public string GroupId { get; set; }
 
         [DataMember(Name = "members")]
         public List<Member> Members { get; set; }

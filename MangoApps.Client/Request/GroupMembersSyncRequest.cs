@@ -18,8 +18,5 @@ namespace MangoApps.Client.Request
 
         [DataMember(Name = "add_member_ids")]
         public List<int> AddMemberIds { get; set; }
-
-        [DataMember(Name = "remove_member_ids")]
-        public List<int> RemoveMemberIds { get; set; }
     }
 }

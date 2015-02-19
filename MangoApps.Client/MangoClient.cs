@@ -17,8 +17,7 @@ namespace MangoApps.Client
         private readonly HttpClient _client;
         private readonly HttpClientHandler _httpClientHandler;
         private static readonly JsonMediaTypeFormatter _jsonFormatter = new JsonMediaTypeFormatter();
-        private const string JSON = ".json";
-
+        private const string JSON = ResponseTypes.JSON;
         /// <include file='DocFile.xml' path='MangoClientDocumentation/Member[@name="MangoClientConstructor"]/*' />
         public MangoClient(string apiURI)
         {
@@ -76,16 +75,16 @@ namespace MangoApps.Client
             return await GetResult<EditSelfCreatedGroupOrProjectResponse>(result);
         }
 
-        public async Task<CreateGroupResponse> AddMembersToGroup(int groupId, IEnumerable<string> addMemberEmails, IEnumerable<int> addMemberIds, IEnumerable<int> removeMemberIds )
+        public async Task<AddMembersToAGroupResponse> AddMembersToGroup(int groupId, IEnumerable<string> addMemberEmails, IEnumerable<int> addMemberIds)
         {
-            var result = await _client.PostAsync(URL.Groups + "/" + groupId + "/members.manage" + JSON, new RequestParametersContainer<GroupMembersSyncRequest> { Request = new GroupMembersSyncRequest { Group = new ProjectGroupSync { AddMemberEmails = addMemberEmails.ToList(), AddMemberIds = addMemberIds.ToList(), RemoveMemberIds = removeMemberIds.ToList()} } }, _jsonFormatter);
-            return await GetResult<CreateGroupResponse>(result);
+            var result = await _client.PutAsync(URL.Groups + "/" + groupId + "/members.manage" + JSON, new RequestParametersContainer<GroupMembersSyncRequest> { Request = new GroupMembersSyncRequest { Group = new ProjectGroupSync { AddMemberEmails = addMemberEmails.ToList(), AddMemberIds = addMemberIds.ToList(), } } }, _jsonFormatter);
+            return await GetResult<AddMembersToAGroupResponse>(result);
         }
 
-        public async Task<CreateGroupResponse> AddMembersToProject(int projectId, IEnumerable<string> addMemberEmails, IEnumerable<int> addMemberIds, IEnumerable<int> removeMemberIds)
+        public async Task<AddMembersToAProjectResponse> AddMembersToProject(int projectId, IEnumerable<string> addMemberEmails, IEnumerable<int> addMemberIds)
         {
-            var result = await _client.PostAsync(URL.Projects + "/" + projectId + "/members" + JSON, new RequestParametersContainer<ProjectMembersSyncRequest> { Request = new ProjectMembersSyncRequest { Project = new ProjectGroupSync { AddMemberEmails = addMemberEmails.ToList(), AddMemberIds = addMemberIds.ToList(), RemoveMemberIds = removeMemberIds.ToList() } } }, _jsonFormatter);
-            return await GetResult<CreateGroupResponse>(result);
+            var result = await _client.PutAsync(URL.Projects + "/" + projectId + "/members.manage" + JSON, new RequestParametersContainer<ProjectMembersSyncRequest> { Request = new ProjectMembersSyncRequest { Project = new ProjectGroupSync { AddMemberEmails = addMemberEmails.ToList(), AddMemberIds = addMemberIds.ToList(), } } }, _jsonFormatter);
+            return await GetResult<AddMembersToAProjectResponse>(result);
         }
 
         public async Task LeaveProjectOrGroup(string conversationId)
@@ -139,6 +138,18 @@ namespace MangoApps.Client
         public async Task<GetAllGroupsResponse> GetProjectTimesheet(int projectId)
         {
             var result = await _client.GetAsync(URL.ProjectTimeSheet.Replace("{project_id}", projectId.ToString()) + JSON);
+            return await GetResult<GetAllGroupsResponse>(result);
+        }
+
+        public async Task<RemoveMembersFromAGroupResponse> RemoveMembersFromAGroup(int groupId, IEnumerable<int> memberIds)
+        {
+            var result = await _client.DeleteAsync(URL.Groups + "/" + groupId + "/members.manage" + JSON);
+            return await GetResult<RemoveMembersFromAGroupResponse>(result);
+        }
+
+        public async Task<GetAllGroupsResponse> RemoveMembersFromAProject(int projectId, IEnumerable<int> memberIds)
+        {
+            var result = await _client.GetAsync(URL.Projects, projectId.ToString()) + JSON);
             return await GetResult<GetAllGroupsResponse>(result);
         }
 

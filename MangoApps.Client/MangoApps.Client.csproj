@@ -122,6 +122,7 @@
     <Compile Include="Response\RemoveMembersFromAProjectResponse.cs" />
     <Compile Include="Response\RenameFolderResponse.cs" />
     <Compile Include="Response\ResponseContainer.cs" />
+    <Compile Include="Request\ResponseTypes.cs" />
     <Compile Include="Response\SignupResponse.cs" />
     <Compile Include="Response\SingleTaskResponse.cs" />
     <Compile Include="Response\StatusUpdateResponse.cs" />
