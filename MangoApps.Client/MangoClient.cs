@@ -6,30 +6,46 @@ using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Threading.Tasks;
 using MangoApps.Client.Request;
-using MangoApps.Client.Request.Parameters;
-using MangoApps.Client.Response;
 
 namespace MangoApps.Client
 {
-    /// <include file='DocFile.xml' path='MangoClientDocumentation/Member[@name="MangoClient"]/*' />
+    /// <summary>
+    /// Simplifies access to the complete mango api.
+    /// </summary>
     public class MangoClient
     {
         private readonly HttpClient _client;
         private readonly HttpClientHandler _httpClientHandler;
         private static readonly JsonMediaTypeFormatter _jsonFormatter = new JsonMediaTypeFormatter();
         private const string JSON = ResponseTypes.JSON;
-        /// <include file='DocFile.xml' path='MangoClientDocumentation/Member[@name="MangoClientConstructor"]/*' />
-        public MangoClient(string apiURI)
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MangoClient"/> class.
+        /// </summary>
+        /// <param name="apiUri">The API URI of the Mango server.</param>
+        /// <exception cref="System.ArgumentNullException">apiUri</exception>
+        public MangoClient(string apiUri)
         {
+            if (apiUri == null) throw new ArgumentNullException("apiUri");
             _httpClientHandler = new HttpClientHandler
             {
                 AllowAutoRedirect = true,
                 UseCookies = true,
                 CookieContainer = new CookieContainer()
             };
-            _client = new HttpClient(_httpClientHandler) { BaseAddress = new Uri(apiURI) };
+            _client = new HttpClient(_httpClientHandler) { BaseAddress = new Uri(apiUri) };
         }
 
+        /// <summary>
+        /// The API signs up and creates the new domain.
+        /// </summary>
+        /// <param name="email">REQUIRED: Work email ID of the user (Used in domain creation)</param>
+        /// <param name="firstName">REQUIRED: First name of the user</param>
+        /// <param name="lastName">REQUIRED: Last name of the user</param>
+        /// <param name="plan">OPTIONAL: Default is “enterprise”. Supported plans are “basic”, “premium”, and “enterprise”.</param>
+        /// <param name="partnerCode">OPTIONAL: A MangoApps-Provided partner code.</param>
+        /// <returns></returns>
+        /// <exception cref="MangoException">The request was forbidden.</exception>
         public async Task<SignupResponse> Signup(string email, string firstName, string lastName, PlanTypes? plan = null, string partnerCode = null)
         {
             var user = new SignupUser { Email = email, FirstName = firstName, LastName = lastName, PartnerCode = partnerCode, Plan = plan };
@@ -37,6 +53,14 @@ namespace MangoApps.Client
             return await GetResult<SignupResponse>(result);
         }
 
+        /// <summary>
+        /// The API Logs as specified user into the domain.
+        /// </summary>
+        /// <param name="userName">REQUIRED: The User that be logged in this session.</param>
+        /// <param name="password">REQUIRED: Base64 Encoded Password</param>
+        /// <param name="apiKey">REQUIRED: The API Key from MangoApps Admin Portal.</param>
+        /// <returns></returns>
+        /// <exception cref="MangoException">The request was unauthrized.</exception>        
         public async Task<LoginResponse> Login(string userName, string password, string apiKey)
         {
             //var encodedPassword = Encoder.ToBase64String(password);
@@ -45,18 +69,38 @@ namespace MangoApps.Client
             return await GetResult<LoginResponse>(result);
         }
 
+        /// <summary>
+        /// The API invites a network user to the domain.
+        /// </summary>
+        /// <param name="emails">REQUIRED: The email of the user being invited.</param>
+        /// <returns></returns>
+        /// <exception cref="MangoException">The request was unauthorized.</exception>        
         public async Task<InviteUserResponse> InviteUsers(IEnumerable<string> emails)
         {
             var result = await _client.PostAsync(URL.Users + JSON, new RequestParametersContainer<InviteUserRequest> { Request = new InviteUserRequest { User = new InviteUserRequestUser { Email = new InviteUserRequestIds { Ids = emails.ToList() } } } }, _jsonFormatter);
             return result.Content.ReadAsAsync<ResponseContainer<InviteUserResponse>>().Result.Response;
         }
 
+        /// <summary>
+        /// The API creates a new group in your MangoApps domain.
+        /// </summary>
+        /// <param name="name">REQUIRED: The name of the new group.</param>
+        /// <param name="description">REQUIRED: The description of the new group.</param>
+        /// <param name="privacyType">REQUIRED: The privacy type indicator for this new group.</param>
+        /// <returns></returns>
         public async Task<CreateGroupResponse> CreateGroup(string name, string description, PrivacyType privacyType)
         {
             var result = await _client.PostAsync(URL.Groups + JSON, new RequestParametersContainer<CreateGroupRequest> { Request = new CreateGroupRequest { Group = new CreateGroupRequestParameters { Name = name, Description = description, PrivacyType = privacyType } } }, _jsonFormatter);
             return await GetResult<CreateGroupResponse>(result);
         }
 
+        /// <summary>
+        /// The API creates a new group in your MangoApps domain.
+        /// </summary>
+        /// <param name="name">REQUIRED: The name of the new project.</param>
+        /// <param name="description">REQUIRED: The description of the new project.</param>
+        /// <param name="privacyType">REQUIRED: The privacy type indicator for this new project.</param>
+        /// <returns></returns>
         public async Task<CreateProjectResponse> CreateProject(string name, string description, PrivacyType privacyType)
         {
             var result = await _client.PostAsync(URL.Projects + JSON, new RequestParametersContainer<CreateProjectRequest> { Request = new CreateProjectRequest { Project = new CreateGroupRequestParameters { Name = name, Description = description, PrivacyType = privacyType } } }, _jsonFormatter);
@@ -127,13 +171,11 @@ namespace MangoApps.Client
             return result.Content.ReadAsAsync<ResponseContainer<GetAllGroupsResponse>>().Result.Response;
         }
 
-
         public async Task<GetAllGroupsResponse> GetMyGroups()
         {
             var result = await _client.GetAsync(URL.Groups + JSON);
             return result.Content.ReadAsAsync<ResponseContainer<GetAllGroupsResponse>>().Result.Response;
         }
-
 
         public async Task<GetAllGroupsResponse> GetProjectTimesheet(int projectId)
         {
@@ -165,6 +207,11 @@ namespace MangoApps.Client
             result.EnsureSuccessStatusCode();
         }
 
+        /// <summary>
+        /// The API Logs the current user out of the domain.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="MangoException">The request was unauthorized.</exception>
         public async Task Logout()
         {
             await _client.PostAsync(URL.Logout + JSON, (string)null, _jsonFormatter);

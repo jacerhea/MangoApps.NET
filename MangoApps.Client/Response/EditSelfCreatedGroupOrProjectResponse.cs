@@ -1,8 +1,7 @@
-﻿using System.Runtime.Serialization;
-using MangoApps.Client.Converter;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.Runtime.Serialization;
 
-namespace MangoApps.Client.Response
+namespace MangoApps.Client
 {
     [DataContract]
     public class EditSelfCreatedGroupOrProjectResponse : TransactionResponse

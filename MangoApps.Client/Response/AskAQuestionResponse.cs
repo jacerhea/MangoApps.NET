@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace MangoApps.Client.Response
+namespace MangoApps.Client
 {
     [DataContract]
     public class AskAQuestionResponse : TransactionResponse

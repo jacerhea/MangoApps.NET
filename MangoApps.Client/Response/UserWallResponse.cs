@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using MangoApps.Client.Converter;
 using Newtonsoft.Json;
 
-namespace MangoApps.Client.Response
+namespace MangoApps.Client
 {
     [DataContract]
     public class UserWallResponse : TransactionResponse

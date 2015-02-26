@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using MangoApps.Client.Request;
 
-namespace MangoApps.Client.Response
+namespace MangoApps.Client
 {
     [DataContract]
     public class SingleTaskResponse : TransactionResponse

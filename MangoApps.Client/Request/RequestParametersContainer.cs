@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace MangoApps.Client.Request.Parameters
+namespace MangoApps.Client.Request
 {
     [DataContract]
     public class RequestParametersContainer<T>

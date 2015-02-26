@@ -1,4 +1,4 @@
-﻿namespace MangoApps.Client.Response
+﻿namespace MangoApps.Client
 {
     public class UploadFileResponse
     {

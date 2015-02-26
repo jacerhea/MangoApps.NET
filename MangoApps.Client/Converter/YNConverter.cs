@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace MangoApps.Client.Converter
+namespace MangoApps.Client
 {
     public class YNConverter : JsonConverter
     {

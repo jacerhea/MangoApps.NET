@@ -2,8 +2,11 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace MangoApps.Client.Converter
+namespace MangoApps.Client
 {
+    /// <summary>
+    /// Converts the Mango date/time JSON representation to/from a .NET DateTime.
+    /// </summary>
     public class SecondEpochConverter : DateTimeConverterBase
     {
         private readonly DateTime _epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);

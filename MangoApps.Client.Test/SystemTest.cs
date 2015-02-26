@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using MangoApps.Client.Request.Parameters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MangoApps.Client.Test
