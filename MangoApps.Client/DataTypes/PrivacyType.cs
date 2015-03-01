@@ -3,7 +3,7 @@
 namespace MangoApps.Client
 {
     /// <summary>
-    /// The level of privacy.
+    /// The privacy type indicator.
     /// </summary>
     public enum PrivacyType
     {
