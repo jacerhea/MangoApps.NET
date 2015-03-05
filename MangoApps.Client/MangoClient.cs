@@ -240,12 +240,21 @@ namespace MangoApps.Client
             return result.Content.ReadAsAsync<ResponseContainer<GetAllProjectsResponse>>().Result.Response;
         }
 
+        /// <summary>
+        /// The API gets all project objects in the domain
+        /// </summary>
+        /// <returns>All project objects in the domain.</returns>
         public async Task<GetAllGroupsResponse> GetMyGroups()
         {
             var result = await _client.GetAsync(URL.Groups + JSON);
             return result.Content.ReadAsAsync<ResponseContainer<GetAllGroupsResponse>>().Result.Response;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
         public async Task<GetAllGroupsResponse> GetProjectTimesheet(int projectId)
         {
             var result = await _client.GetAsync(URL.ProjectTimeSheet.Replace("{project_id}", projectId.ToString()) + JSON);
