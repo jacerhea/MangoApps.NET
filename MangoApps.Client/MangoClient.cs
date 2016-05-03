@@ -25,7 +25,7 @@ namespace MangoApps.Client
         /// <exception cref="System.ArgumentNullException">apiUri</exception>
         public MangoClient(string apiUri)
         {
-            if (apiUri == null) throw new ArgumentNullException("apiUri");
+            if (apiUri == null) throw new ArgumentNullException(nameof(apiUri));
             var httpClientHandler = new HttpClientHandler
             {
                 AllowAutoRedirect = true,
@@ -363,6 +363,5 @@ namespace MangoApps.Client
 
             return await new Task<T>(() => default(T));
         }
-
     }
 }
